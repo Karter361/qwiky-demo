@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QWIKY — Everyday authorizations. Digital. Effortless.</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair:ital,wght@1,700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* CI Farben (unverändert) */
+      --green-dark:#063422;   /* Hintergrund */
+      --green-light:#909554;  /* Akzent/Panel */
+      --ink:#0B0F0D;
+      --muted:#66707A;
+      --outline:rgba(255,255,255,.14);
+      --card:rgba(255,255,255,.08);
+      --whiteglass:rgba(255,255,255,.9);
+    }
+
+    html{scroll-behavior:smooth}
+    body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"}
+    .playfair{font-family:"Playfair", serif}
+
+    /* Hintergründe & Deko */
+    .bg-hero{
+      background:
+        radial-gradient(700px 300px at 0% 0%, rgba(144,149,84,.26), transparent 60%),
+        radial-gradient(800px 320px at 100% 10%, rgba(6,52,34,.36), transparent 55%),
+        linear-gradient(180deg, var(--green-dark), #05291b 65%);
+    }
+    .glass{backdrop-filter:saturate(140%) blur(10px)}
+    .shadow-soft{box-shadow:0 20px 60px rgba(0,0,0,.22)}
+    .card-shadow{box-shadow:0 12px 36px rgba(0,0,0,.18)}
+
+    /* iPhone Notch */
+    .ios-notch:before{
+      content:""; position:absolute; top:12px; left:50%; transform:translateX(-50%);
+      width:108px; height:28px; background:#0A0A0A; border-radius:18px;
+    }
+
+    /* Reveal */
+    .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
+    .reveal.in{opacity:1; transform:none}
+
+    /* Subtle gradient hairline for separators */
+    .hairline{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent)}
+
+    /* Smooth disclosure animation */
+    .collapse{overflow:hidden; max-height:0; transition:max-height .5s ease, opacity .4s ease; opacity:0}
+    .collapse.open{opacity:1}
+
+    /* Floating particles for hero depth */
+    .spark{ position:absolute; width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,.14); filter:blur(1px); animation: drift 14s linear infinite; }
+    @keyframes drift{ from{ transform:translateY(0) translateX(0)} to{ transform:translateY(-120px) translateX(40px)} }
+  </style>
+</head>
+
+<body class="bg-hero text-white">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+
+    <!-- NAV -->
+    <nav class="sticky top-4 z-50 glass bg-white/10 border border-white/10 rounded-2xl px-3 md:px-6 py-3 flex items-center justify-between card-shadow">
+      <a href="#" class="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-white/40 rounded-xl">
+        <img src="SVG/Zeichenfläche 1.svg" alt="QWIKY Logo" class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/70 p-0.5">
+        <span class="text-2xl md:text-3xl playfair italic leading-none">QWIKY</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 text-white/70">
+        <a href="#about" class="hover:text-white transition">About us</a>
+        <a href="#reviews" class="hover:text-white transition">Reviews</a>
+        <a href="#blog" class="hover:text-white transition">Our blog</a>
+      </div>
+
+      <a href="#download" class="inline-flex items-center rounded-full bg-white text-[var(--green-dark)] px-4 py-2 text-sm font-semibold hover:opacity-90 transition focus:outline-none focus:ring-2 focus:ring-white/50">
+        Download App
+      </a>
+    </nav>
+
+    <!-- HERO / CANVAS -->
+    <section class="relative mt-6 rounded-3xl border border-white/15 overflow-hidden bg-white/5 glass card-shadow">
+      <!-- floating deco -->
+      <span class="spark" style="left:8%; bottom:14%"></span>
+      <span class="spark" style="left:78%; bottom:20%; animation-duration:18s"></span>
+
+      <!-- obere Fläche -->
+      <div class="p-6 md:p-10 lg:p-14 relative">
+        <!-- hellgrünes Panel (unverändertes CI) -->
+        <div class="absolute inset-x-6 md:inset-x-10 bottom-6 md:bottom-8 top-[48%] rounded-3xl" style="background:linear-gradient(180deg, rgba(144,149,84,.92), rgba(144,149,84,.86));"></div>
+
+        <!-- Zierlinie -->
+        <svg class="absolute left-10 right-6 bottom-10 text-white/30" height="140" viewBox="0 0 1200 160" fill="none" aria-hidden="true">
+          <path d="M0 120C180 120 240 20 420 20C600 20 540 140 720 140C900 140 930 30 1120 30" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <div class="relative grid lg:grid-cols-2 gap-10 items-center">
+
+          <!-- Copy (Inhalte UNVERÄNDERT) -->
+          <div class="py-3 md:py-20 reveal">
+            <p class="uppercase tracking-[0.2em] text-white/70 text-xs mb-20">Everyday authorizations</p>
+            <h1 class="text-[12vw] leading-none md:text-7xl font-extrabold -mt-20 mb-2">GET TO KNOW</h1>
+            <div class="text-7xl md:text-8xl playfair italic -mt-2 mb-20">QWIKY</div>
+
+            <p class="max-w-xl text-base md:text-lg text-white/90 mb-8">
+              <br>
+              <br>
+              We replace paper permissions with a secure, mobile-first flow. Create a legally valid, time- and purpose-bound authorization — in seconds.
+            </p>
+
+            <div class="flex items-center gap-4 mb-10">
+              <a href="#get-started" class="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition shadow-soft text-black focus:outline-none focus:ring-2 focus:ring-white/60" style="background-color:#ffffff;">
+                Get Started
+              </a>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-white/80">
+              <span class="whitespace-nowrap">The mobile app will soon be available</span>
+
+              <!-- Badges -->
+              <a class="flex items-center gap-2 rounded-full px-3 py-2 bg-white/95 hover:bg-white transition text-[var(--green-dark)] border border-white/40 focus:outline-none focus:ring-2 focus:ring-white/60" href="#" aria-label="App Store">
+                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true">
+                  <path d="M17.564 12.753c-.031-3.004 2.468-4.448 2.58-4.516-1.402-2.05-3.59-2.332-4.348-2.362-1.847-.188-3.604 1.086-4.537 1.086-.952 0-2.392-1.064-3.935-1.034-2.022.03-3.886 1.182-4.927 3.005-2.099 3.637-.535 9.02 1.51 11.972 1.003 1.434 2.196 3.04 3.757 2.983 1.52-.06 2.092-.96 3.93-.96 1.818 0 2.356.96 3.938.93 1.625-.03 2.654-1.46 3.651-2.9 1.147-1.674 1.61-3.3 1.63-3.381-.036-.012-3.127-1.199-3.248-4.824zM14.9 3.93c.82-.996 1.392-2.374 1.237-3.755-1.196.048-2.635.796-3.49 1.792-.767.885-1.447 2.31-1.266 3.67 1.338.104 2.7-.68 3.52-1.707z"/>
+                </svg>
+                <span>App Store</span>
+              </a>
+
+              <a class="flex items-center gap-2 rounded-full px-3 py-2 bg-white/95 hover:bg-white transition text-[var(--green-dark)] border border-white/40 focus:outline-none focus:ring-2 focus:ring-white/60" href="#" aria-label="Google Play">
+                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true">
+                  <path d="M3 20.5V3.5c0-.39.23-.74.59-.9.36-.16.78-.1 1.08.16l9.5 8.5-9.5 8.5c-.3.26-.72.32-1.08.16A.99.99 0 0 1 3 20.5Zm11.3-7.1 2.44-2.19 3.52-3.16c.29-.26.71-.31 1.06-.15.36.17.58.53.58.93v10.46c0 .4-.22.76-.58.93-.35.16-.77.11-1.06-.15l-3.52-3.16-2.44-2.19Z"/>
+                </svg>
+                <span>Google Play</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Phone Mockup -->
+          <div class="flex items-center justify-center reveal">
+            <div class="relative w-[300px] md:w-[360px] aspect-[9/19] bg-black rounded-[42px] ios-notch shadow-soft">
+              <div class="absolute inset-[6px] bg-white rounded-[36px] overflow-hidden">
+                <!-- Status bar -->
+                <div class="px-6 py-5 flex items-center justify-between text-xs text-gray-500 select-none">
+                  <span>12:41</span>
+                  <div class="flex gap-1">
+                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                  </div>
+                </div>
+                <!-- App header -->
+                <div class="px-4 pt-2 pb-3">
+                  <div class="text-xl font-semibold">My Authorizations</div>
+                  <div class="mt-2 flex gap-4 text-xs">
+                    <span class="border-b-2 border-black pb-1 text-gray-700">Upcoming</span>
+                    <span class="text-gray-400">Issued</span>
+                    <span class="text-gray-400">Recent</span>
+                  </div>
+                </div>
+
+                <!-- Cards -->
+                <div class="px-4 space-y-3 pb-24">
+                  <div class="rounded-2xl p-3 bg-emerald-50/70 border border-emerald-200/70">
+                    <div class="text-sm font-semibold text-emerald-800">Tip</div>
+                    <div class="text-xs text-emerald-900">Keep a photo ID ready when picking up parcels.</div>
+                  </div>
+
+                  <!-- DHL Card mit collapsible QR -->
+                  <div class="rounded-2xl p-3 bg-lime-50 border border-lime-200">
+                    <div class="flex items-start justify-between gap-3">
+                      <div>
+                        <div class="text-sm font-semibold text-gray-600">DHL Parcel Pickup</div>
+                        <div class="text-xs text-gray-600">Valid: Today, 18:00–21:00</div>
+                        <div class="text-xs text-gray-600 mt-1">Proxy: Alex</div>
+                      </div>
+                      <button id="qrToggle"
+                              class="text-xs px-2 py-1 rounded-full bg-black text-white focus:outline-none focus:ring-2 focus:ring-black/30"
+                              aria-expanded="false" aria-controls="qrPanel">
+                        Show QR
+                      </button>
+                    </div>
+
+                    <!-- Collapsible Panel -->
+                    <div id="qrPanel" class="collapse mt-3 rounded-xl border border-lime-300/80 bg-white/80">
+                      <div class="p-3 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                          <!-- QR-Code PNG -->
+                          <div class="p-1 bg-white border border-gray-200 rounded-lg">
+                            <!-- Pfad anpassen, falls im Unterordner /img -->
+                            <img id="qrImg" src="QWIKY_Final_QR.png" alt="Pickup QR-Code" class="w-10 h-10 object-contain">
+                          </div>
+                          <div class="text-xs text-gray-700 leading-tight">
+                            Present this code at pickup. <br/>
+                            Expires: Today, 21:00
+                          </div>
+                        </div>
+                        <button id="btnCopy"
+                                class="text-xs px-3 py-2 rounded-full bg-black text-white focus:outline-none focus:ring-2 focus:ring-black/30"
+                                aria-label="Copy code">
+                          Copy
+                        </button>
+                      </div>
+                      <div class="hairline"></div>
+                      <div class="px-3 py-2 text-[10px] text-gray-500">For security, this code refreshes periodically.</div>
+                    </div>
+                  </div>
+
+                  <div class="rounded-2xl p-3 bg-amber-50 border border-amber-200">
+                    <div class="text-sm font-semibold text-gray-600">Pharmacy Pickup</div>
+                    <div class="text-xs text-gray-600">Valid: Today, 17:00-20:00</div>
+                  </div>
+                </div>
+
+                <!-- Nav bar -->
+                <div class="absolute bottom-0 inset-x-0 border-t bg-white/90 px-6 py-3 flex items-center justify-between text-xs select-none">
+                  <span class="text-gray-900 font-medium">Home</span>
+                  <span class="text-gray-400">Passes</span>
+                  <span class="text-gray-400">Profile</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm mt-6 px-1">
+      <div class="text-white/90">© 2025 QWIKY</div>
+      <div class="flex gap-6">
+        <a href="#" class="text-white/80 hover:text-white transition">Privacy</a>
+        <a href="#" class="text-white/80 hover:text-white transition">Imprint</a>
+        <a href="#" class="text-white/80 hover:text-white transition">Contact</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // reveal on scroll
+    const io = new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.16});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Collapsible QR panel toggle with robust height management
+    const panel = document.getElementById('qrPanel');
+    const toggle = document.getElementById('qrToggle');
+    const copyBtn = document.getElementById('btnCopy');
+    const qrImg  = document.getElementById('qrImg');
+
+    function recalc(){
+      if(panel && panel.classList.contains('open')){
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    }
+
+    function setOpen(open){
+      if(!panel || !toggle) return;
+      if(open){
+        panel.classList.add('open');
+        // Zweifacher Frame-Flush, damit Bilder/Fonts Einfluss haben
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        requestAnimationFrame(()=> requestAnimationFrame(recalc));
+        toggle.setAttribute('aria-expanded','true');
+        toggle.textContent = 'Hide QR';
+      } else {
+        // sanft schließen
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        requestAnimationFrame(()=>{
+          panel.style.maxHeight = '0px';
+          panel.classList.remove('open');
+        });
+        toggle.setAttribute('aria-expanded','false');
+        toggle.textContent = 'Show QR';
+      }
+    }
+
+    // Toggle-Button
+    toggle?.addEventListener('click', ()=>{
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      setOpen(!isOpen);
+    });
+
+    // Recalc bei Bild-Ladevorgang
+    qrImg?.addEventListener('load', recalc);
+
+    // Recalc bei Größenänderung des Panels (z. B. Fonts, responsive)
+    if ('ResizeObserver' in window && panel){
+      const ro = new ResizeObserver(recalc);
+      ro.observe(panel);
+    }
+
+    // Copy (dummy) code action
+    copyBtn?.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText('QWIKY-DHL-1234-5678');
+        copyBtn.textContent = 'Copied';
+        setTimeout(()=> copyBtn.textContent = 'Copy', 1600);
+      }catch(e){
+        copyBtn.textContent = 'Error';
+        setTimeout(()=> copyBtn.textContent = 'Copy', 1600);
+      }
+    });
+
+    // Ensure correct height on resize when panel is open
+    window.addEventListener('resize', recalc);
+  </script>
+</body>
+</html>
