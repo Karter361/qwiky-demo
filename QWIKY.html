@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QWIKY — Everyday authorizations. Digital. Effortless.</title>
+  <title>QWIKR — Everyday authorizations. Digital. Effortless.</title>
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,212 +13,287 @@
 
   <style>
     :root{
-      /* CI Farben (unverändert) */
-      --green-dark:#063422;   /* Hintergrund */
-      --green-light:#909554;  /* Akzent/Panel */
+      --green-dark:#063422;
+      --green-light:#063422;
       --ink:#0B0F0D;
       --muted:#66707A;
       --outline:rgba(255,255,255,.14);
       --card:rgba(255,255,255,.08);
       --whiteglass:rgba(255,255,255,.9);
     }
-
     html{scroll-behavior:smooth}
-    body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"}
-    .playfair{font-family:"Playfair", serif}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    .playfair{font-family:"Playfair",serif}
 
-    /* Hintergründe & Deko */
+    /* BG + FX (gekürzt) */
     .bg-hero{
-      background:
-        radial-gradient(700px 300px at 0% 0%, rgba(144,149,84,.26), transparent 60%),
-        radial-gradient(800px 320px at 100% 10%, rgba(6,52,34,.36), transparent 55%),
-        linear-gradient(180deg, var(--green-dark), #05291b 65%);
+      --g1: radial-gradient(700px 300px at 0% 0%, rgba(144,149,84,.26), transparent 60%);
+      --g2: radial-gradient(800px 320px at 100% 10%, rgba(6,52,34,.36), transparent 55%);
+      --g3: linear-gradient(180deg, var(--green-dark), #05291b 65%);
+      --aurora: conic-gradient(from 220deg at 70% 20%, rgba(255,255,255,.06), rgba(144,149,84,.08), rgba(255,255,255,.04), transparent 60%);
+      background: var(--g1), var(--g2), var(--aurora), var(--g3); position: relative; isolation:isolate;
     }
+    .grain:before{
+      content:""; position:fixed; inset:-20%; pointer-events:none; z-index:-1; opacity:.18; mix-blend-mode:overlay;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity=".4"/></svg>');
+      background-size:160px 160px; animation:grain 13s steps(10) infinite;
+    }
+    @keyframes grain{0%{transform:translate(0,0)}10%{transform:translate(-3%,2%)}20%{transform:translate(2%,-1%)}30%{transform:translate(1%,3%)}40%{transform:translate(-2%,-2%)}50%{transform:translate(3%,1%)}60%{transform:translate(-1%,2%)}70%{transform:translate(2%,-3%)}80%{transform:translate(-3%,1%)}90%{transform:translate(1%,1%)}100%{transform:translate(0,0)}}
     .glass{backdrop-filter:saturate(140%) blur(10px)}
-    .shadow-soft{box-shadow:0 20px 60px rgba(0,0,0,.22)}
-    .card-shadow{box-shadow:0 12px 36px rgba(0,0,0,.18)}
-
-    /* iPhone Notch */
-    .ios-notch:before{
-      content:""; position:absolute; top:12px; left:50%; transform:translateX(-50%);
-      width:108px; height:28px; background:#0A0A0A; border-radius:18px;
-    }
-
-    /* Reveal */
-    .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
-    .reveal.in{opacity:1; transform:none}
-
-    /* Subtle gradient hairline for separators */
-    .hairline{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent)}
-
-    /* Smooth disclosure animation */
-    .collapse{overflow:hidden; max-height:0; transition:max-height .5s ease, opacity .4s ease; opacity:0}
-    .collapse.open{opacity:1}
-
-    /* Floating particles for hero depth */
+    .shadow-soft{box-shadow:0 24px 80px rgba(0,0,0,.28)}
+    .card-shadow{box-shadow:0 14px 40px rgba(0,0,0,.22)}
+    .hairline{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent)}
     .spark{ position:absolute; width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,.14); filter:blur(1px); animation: drift 14s linear infinite; }
-    @keyframes drift{ from{ transform:translateY(0) translateX(0)} to{ transform:translateY(-120px) translateX(40px)} }
+    @keyframes drift{ from{ transform:translateY(0) translateX(0)} to{ transform:translateY(-120px) translateX(60px)} }
+
+    /* Phone */
+    .phone-frame{ background:#0a0a0a; border-radius:44px; box-shadow:0 30px 80px rgba(0,0,0,.45), inset 0 -1px 0 rgba(255,255,255,.06), inset 0 1px 0 rgba(0,0,0,.6); position:relative }
+    .screen-wrap{ position:absolute; inset:6px; border-radius:36px; overflow:hidden; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), inset 0 8px 24px rgba(0,0,0,.25) }
   </style>
 </head>
 
-<body class="bg-hero text-white">
+<body class="bg-hero grain text-white">
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
   <div class="max-w-7xl mx-auto px-4 md:px-8 py-8">
-
     <!-- NAV -->
-    <nav class="sticky top-4 z-50 glass bg-white/10 border border-white/10 rounded-2xl px-3 md:px-6 py-3 flex items-center justify-between card-shadow">
+    <nav class="sticky top-4 z-50 glass bg-white/10 border border-white/10 rounded-2xl px-3 md:px-6 py-3 flex items-center justify-between card-shadow backdrop-saturate-150" aria-label="Primary">
       <a href="#" class="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-white/40 rounded-xl">
-        <img src="SVG/Zeichenfläche 1.svg" alt="QWIKY Logo" class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/70 p-0.5">
-        <span class="text-2xl md:text-3xl playfair italic leading-none">QWIKY</span>
+        <img src="SVG/Zeichenfläche 1.svg" alt="QWIKY Logo" class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-white/70 p-0.5" width="56" height="56" loading="lazy">
+        <span class="text-2xl md:text-3xl playfair italic leading-none">QWIKR</span>
       </a>
-
       <div class="hidden md:flex items-center gap-8 text-white/70">
         <a href="#about" class="hover:text-white transition">About us</a>
-        <a href="#reviews" class="hover:text-white transition">Reviews</a>
+        <a href="Process.html" class="hover:text-white transition">Onboarding</a>
         <a href="#blog" class="hover:text-white transition">Our blog</a>
+        <a href="#faq" class="hover:text-white transition">Team</a>
       </div>
-
-      <a href="#download" class="inline-flex items-center rounded-full bg-white text-[var(--green-dark)] px-4 py-2 text-sm font-semibold hover:opacity-90 transition focus:outline-none focus:ring-2 focus:ring-white/50">
-        Download App
+      <a href="#download" class="magnet ring-glow inline-flex items-center rounded-full bg-white text-[var(--green-dark)] px-4 py-2 text-sm font-semibold hover:opacity-95 transition focus:outline-none focus:ring-2 focus:ring-white/50">
+        <span>Download App</span><span class="halo" aria-hidden="true"></span>
       </a>
     </nav>
 
     <!-- HERO / CANVAS -->
-    <section class="relative mt-6 rounded-3xl border border-white/15 overflow-hidden bg-white/5 glass card-shadow">
-      <!-- floating deco -->
+    <section class="relative mt-6 rounded-3xl border border-white/15 overflow-hidden bg-white/5 glass card-shadow" aria-labelledby="hero-title">
       <span class="spark" style="left:8%; bottom:14%"></span>
       <span class="spark" style="left:78%; bottom:20%; animation-duration:18s"></span>
+      <div class="absolute -inset-x-10 -top-10 h-24 accent-line opacity-40 blur-xl" style="animation:moveLine 14s linear infinite"></div>
+      <style>@keyframes moveLine{ from{transform:translateX(-20%)} to{transform:translateX(20%)} }</style>
 
-      <!-- obere Fläche -->
       <div class="p-6 md:p-10 lg:p-14 relative">
-        <!-- hellgrünes Panel (unverändertes CI) -->
-        <div class="absolute inset-x-6 md:inset-x-10 bottom-6 md:bottom-8 top-[48%] rounded-3xl" style="background:linear-gradient(180deg, rgba(144,149,84,.92), rgba(144,149,84,.86));"></div>
+        <div class="absolute inset-x-6 md:inset-x-10 bottom-6 md:bottom-8 top-[48%] rounded-3xl" style="background:linear-gradient(180deg, rgba(144,149,84,.92), rgba(144,149,84,.86)); box-shadow:inset 0 1px 0 rgba(255,255,255,.25);"></div>
 
-        <!-- Zierlinie -->
         <svg class="absolute left-10 right-6 bottom-10 text-white/30" height="140" viewBox="0 0 1200 160" fill="none" aria-hidden="true">
           <path d="M0 120C180 120 240 20 420 20C600 20 540 140 720 140C900 140 930 30 1120 30" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
 
         <div class="relative grid lg:grid-cols-2 gap-10 items-center">
-
-          <!-- Copy (Inhalte UNVERÄNDERT) -->
+          <!-- Copy -->
           <div class="py-3 md:py-20 reveal">
             <p class="uppercase tracking-[0.2em] text-white/70 text-xs mb-20">Everyday authorizations</p>
-            <h1 class="text-[12vw] leading-none md:text-7xl font-extrabold -mt-20 mb-2">GET TO KNOW</h1>
-            <div class="text-7xl md:text-8xl playfair italic -mt-2 mb-20">QWIKY</div>
-
+            <h1 id="hero-title" class="text-[12vw] leading-none md:text-7xl font-extrabold -mt-20 mb-2">GET TO KNOW</h1>
+            <div class="text-7xl md:text-8xl playfair italic -mt-2 mb-20">QWIKR</div>
             <p class="max-w-xl text-base md:text-lg text-white/90 mb-8">
-              <br>
-              <br>
-              We replace paper permissions with a secure, mobile-first flow. Create a legally valid, time- and purpose-bound authorization — in seconds.
+              Paperwork is a thing of the past. With QWIKR, you can create or approve authorizations in seconds — securely, legally valid, and digitally.
             </p>
-
             <div class="flex items-center gap-4 mb-10">
-              <a href="#get-started" class="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition shadow-soft text-black focus:outline-none focus:ring-2 focus:ring-white/60" style="background-color:#ffffff;">
-                Get Started
-              </a>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-white/80">
-              <span class="whitespace-nowrap">The mobile app will soon be available</span>
-
-              <!-- Badges -->
-              <a class="flex items-center gap-2 rounded-full px-3 py-2 bg-white/95 hover:bg-white transition text-[var(--green-dark)] border border-white/40 focus:outline-none focus:ring-2 focus:ring-white/60" href="#" aria-label="App Store">
-                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true">
-                  <path d="M17.564 12.753c-.031-3.004 2.468-4.448 2.58-4.516-1.402-2.05-3.59-2.332-4.348-2.362-1.847-.188-3.604 1.086-4.537 1.086-.952 0-2.392-1.064-3.935-1.034-2.022.03-3.886 1.182-4.927 3.005-2.099 3.637-.535 9.02 1.51 11.972 1.003 1.434 2.196 3.04 3.757 2.983 1.52-.06 2.092-.96 3.93-.96 1.818 0 2.356.96 3.938.93 1.625-.03 2.654-1.46 3.651-2.9 1.147-1.674 1.61-3.3 1.63-3.381-.036-.012-3.127-1.199-3.248-4.824zM14.9 3.93c.82-.996 1.392-2.374 1.237-3.755-1.196.048-2.635.796-3.49 1.792-.767.885-1.447 2.31-1.266 3.67 1.338.104 2.7-.68 3.52-1.707z"/>
-                </svg>
-                <span>App Store</span>
-              </a>
-
-              <a class="flex items-center gap-2 rounded-full px-3 py-2 bg-white/95 hover:bg-white transition text-[var(--green-dark)] border border-white/40 focus:outline-none focus:ring-2 focus:ring-white/60" href="#" aria-label="Google Play">
-                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true">
-                  <path d="M3 20.5V3.5c0-.39.23-.74.59-.9.36-.16.78-.1 1.08.16l9.5 8.5-9.5 8.5c-.3.26-.72.32-1.08.16A.99.99 0 0 1 3 20.5Zm11.3-7.1 2.44-2.19 3.52-3.16c.29-.26.71-.31 1.06-.15.36.17.58.53.58.93v10.46c0 .4-.22.76-.58.93-.35.16-.77.11-1.06-.15l-3.52-3.16-2.44-2.19Z"/>
-                </svg>
-                <span>Google Play</span>
+              <a href="#get-started" class="magnet ring-glow inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition shadow-soft text-black focus:outline-none focus:ring-2 focus:ring-white/60" style="background-color:#ffffff;">
+                <span>Get Started</span><span class="halo" aria-hidden="true"></span>
               </a>
             </div>
           </div>
 
-          <!-- Phone Mockup -->
+          <!-- Phone -->
           <div class="flex items-center justify-center reveal">
-            <div class="relative w-[300px] md:w-[360px] aspect-[9/19] bg-black rounded-[42px] ios-notch shadow-soft">
-              <div class="absolute inset-[6px] bg-white rounded-[36px] overflow-hidden">
-                <!-- Status bar -->
+            <div class="relative w-[300px] md:w-[360px] aspect-[9/19] phone-frame ios-notch shadow-soft tilt" id="phone">
+              <span class="buttons" aria-hidden="true"></span>
+              <div class="screen-wrap bg-white">
+                <div class="notch"></div><div class="cam"></div><div class="speaker"></div>
+                <div class="glare" id="glare"></div><div class="vignette"></div><div class="smudge"></div>
+
+                <!-- Status -->
                 <div class="px-6 py-5 flex items-center justify-between text-xs text-gray-500 select-none">
-                  <span>12:41</span>
-                  <div class="flex gap-1">
-                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
-                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                  <span class="text-black">12:41</span>
+                  <div class="flex gap-1" aria-hidden="true">
+                    <span class="w-2 h-2 rounded-full bg-black"></span>
+                    <span class="w-2 h-2 rounded-full bg-black"></span>
                     <span class="w-2 h-2 rounded-full bg-gray-400"></span>
                   </div>
                 </div>
-                <!-- App header -->
+
+                <!-- Phone header -->
                 <div class="px-4 pt-2 pb-3">
-                  <div class="text-xl font-semibold">My Authorizations</div>
-                  <div class="mt-2 flex gap-4 text-xs">
-                    <span class="border-b-2 border-black pb-1 text-gray-700">Upcoming</span>
-                    <span class="text-gray-400">Issued</span>
-                    <span class="text-gray-400">Recent</span>
-                  </div>
-                </div>
+                  <div id="phoneTitle" class="text-1xl font-semibold text-gray-900">My Authorizations</div>
+                  <div class="mt-2 flex gap-4 text-xs" role="tablist" aria-label="Sections">
+    <button id="tabProxies"
+            class="pb-1 border-b-2 border-black text-gray-700"
+            role="tab" aria-selected="true" type="button">
+      My Proxies
+    </button>
+    <button id="tabCards"
+            class="pb-1 border-b-2 border-transparent text-gray-400"
+            role="tab" aria-selected="false" type="button">
+      My Cards
+    </button>
+  </div>
+</div>
 
-                <!-- Cards -->
-                <div class="px-4 space-y-3 pb-24">
-                  <div class="rounded-2xl p-3 bg-emerald-50/70 border border-emerald-200/70">
-                    <div class="text-sm font-semibold text-emerald-800">Tip</div>
-                    <div class="text-xs text-emerald-900">Keep a photo ID ready when picking up parcels.</div>
-                  </div>
-
-                  <!-- DHL Card mit collapsible QR -->
-                  <div class="rounded-2xl p-3 bg-lime-50 border border-lime-200">
-                    <div class="flex items-start justify-between gap-3">
-                      <div>
-                        <div class="text-sm font-semibold text-gray-600">DHL Parcel Pickup</div>
-                        <div class="text-xs text-gray-600">Valid: Today, 18:00–21:00</div>
-                        <div class="text-xs text-gray-600 mt-1">Proxy: Alex</div>
-                      </div>
-                      <button id="qrToggle"
-                              class="text-xs px-2 py-1 rounded-full bg-black text-white focus:outline-none focus:ring-2 focus:ring-black/30"
-                              aria-expanded="false" aria-controls="qrPanel">
-                        Show QR
-                      </button>
+                <!-- Phone views -->
+                <div class="px-4 pb-24" id="phoneViews">
+                  <!-- HOME -->
+                  <section data-view="home" class="space-y-3">
+                    <div class="rounded-2xl p-3 bg-emerald-50/70 border border-emerald-200/70">
+                      <div class="text-sm font-semibold text-emerald-800">Hermes Parcel shop</div>
+                      <div class="text-xs text-gray-600">Valid: Permanent</div>
+                      <div class="text-xs text-gray-600">Proxy: Peter Parker</div>
                     </div>
 
-                    <!-- Collapsible Panel -->
-                    <div id="qrPanel" class="collapse mt-3 rounded-xl border border-lime-300/80 bg-white/80">
-                      <div class="p-3 flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-3">
-                          <!-- QR-Code PNG -->
-                          <div class="p-1 bg-white border border-gray-200 rounded-lg">
-                            <!-- Pfad anpassen, falls im Unterordner /img -->
-                            <img id="qrImg" src="QWIKY_Final_QR.png" alt="Pickup QR-Code" class="w-10 h-10 object-contain">
+                    <!-- DHL Card -->
+                    <details id="qrDetails" class="rounded-2xl bg-lime-50 border border-lime-200 open:shadow-sm">
+                      <summary class="p-3 cursor-pointer select-none">
+                        <div class="flex items-start justify-between gap-3">
+                          <div>
+                            <div class="text-sm font-semibold text-lime-600">DHL Parcel Pickup</div>
+                            <div class="text-xs text-gray-600">Valid: Today, 18:00–21:00</div>
+                            <div class="text-xs text-gray-600 mt-1">Proxy: Alex Smith</div>
                           </div>
-                          <div class="text-xs text-gray-700 leading-tight">
-                            Present this code at pickup. <br/>
-                            Expires: Today, 21:00
-                          </div>
+                          <button id="qrToggle" type="button" class="text-xs px-2 py-1 rounded-full bg-black text-white focus:outline-none focus:ring-2 focus:ring-black/30" aria-expanded="false" aria-controls="qrPanel">Show QR</button>
                         </div>
-                        <button id="btnCopy"
-                                class="text-xs px-3 py-2 rounded-full bg-black text-white focus:outline-none focus:ring-2 focus:ring-black/30"
-                                aria-label="Copy code">
-                          Copy
-                        </button>
+                      </summary>
+                      <div id="qrPanel" class="mt-0 px-3 pb-3">
+                        <div class="mt-3 rounded-xl border border-lime-300/80 bg-white/80">
+                          <div class="p-3 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                              <div class="p-1 bg-white border border-gray-200 rounded-lg">
+                                <img id="qrImg" src="QWIKY_Final_QR.png" alt="Pickup QR Code" class="w-50 h-50 object-contain" width="128" height="128" loading="lazy">
+                              </div>
+                              <div class="text-xs text-gray-700 leading-tight">
+                                Present this code at pickup. <br/>Expires: Today, 21:00
+                              </div>
+                            </div>
+                            <button id="btnCopy" type="button" class="text-xs px-3 py-2 rounded-full bg-black text-white focus:outline-none focus:ring-2 focus:ring-black/30">Copy</button>
+                          </div>
+                          <div class="hairline"></div>
+                          <div class="px-3 py-2 text-[10px] text-gray-500">For security, this code refreshes periodically.</div>
+                        </div>
                       </div>
-                      <div class="hairline"></div>
-                      <div class="px-3 py-2 text-[10px] text-gray-500">For security, this code refreshes periodically.</div>
-                    </div>
-                  </div>
+                    </details>
 
-                  <div class="rounded-2xl p-3 bg-amber-50 border border-amber-200">
-                    <div class="text-sm font-semibold text-gray-600">Pharmacy Pickup</div>
-                    <div class="text-xs text-gray-600">Valid: Today, 17:00-20:00</div>
-                  </div>
+                    <div class="rounded-2xl p-3 bg-amber-50 border border-amber-200">
+                      <div class="text-sm font-semibold text-amber-600">UPS Parcel Shop</div>
+                      <div><span class="text-xs text-gray-600">Valid: Today, 17:00–20:00</span></div>
+                      <div class="text-xs text-gray-600">Proxy: Mary Jane</div>
+                    </div>
+                  </section>
+
+                  <!-- REQUESTS (Form) -->
+                  <section data-view="requests" class="hidden">
+                    <form id="reqForm" class="rounded-2xl border bg-emerald-50 p-4 space-y-4">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                          <h2 class="text-lg md:text-xl font-extrabold text-emerald-900">Request Authorization</h2>
+                        </div>
+                        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600/10 text-emerald-700" title="Protected">🛡️</span>
+                      </div>
+
+                      <div>
+                        <label class="block text-sm font-semibold text-emerald-900 mb-1">Purpose</label>
+                        <select name="purpose" required class="w-full rounded-2xl border border-emerald-200 bg-white px-4 py-3 text-[15px] text-gray-600">
+                          <option value="parcel">Parcel Pickup (DHL, Hermes)</option>
+                          <option value="pharmacy">Prescription Pickup (Pharmacy)</option>
+                          <option value="retail">Retail Pickup / Return</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label class="block text-sm font-semibold text-emerald-900 mb-1">Grantor (Person who should authorize you)</label>
+                        <div class="relative">
+                          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">👤</span>
+                          <input name="grantor" required placeholder="Name, email or phone" class="w-full rounded-2xl border border-emerald-200 bg-white pl-9 pr-4 py-3 text-[15px] text-gray-600"/>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label class="block text-sm font-semibold text-emerald-900 mb-1">Details (optional)</label>
+                        <div class="relative">
+                          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">📝</span>
+                          <input name="details" placeholder="Tracking number" class="w-full rounded-2xl border border-emerald-200 bg-white pl-9 pr-4 py-3 text-[15px] text-gray-600"/>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label class="block text-sm font-semibold text-emerald-900 mb-1">Valid Until</label>
+                        <div class="relative">
+                          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">📅</span>
+                          <input name="until" type="datetime-local" required class="w-full rounded-2xl border border-emerald-200 bg-white pl-9 pr-12 py-3 text-[15px] text-gray-600"/>
+                          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400">🗓️</span>
+                        </div>
+                        <p class="mt-2 text-xs text-zinc-500">Authorization will automatically expire after this time.</p>
+                      </div>
+
+                      <button type="submit" class="w-full rounded-full bg-emerald-600 text-white py-3 text-[15px] font-semibold shadow hover:bg-emerald-700 active:scale-[0.99] transition">✉️  Send Request</button>
+                    </form>
+                    <div id="toast" class="hidden mt-3 rounded-xl bg-emerald-600 text-white text-sm px-3 py-2">✅ Request sent to <span id="toastName" class="font-semibold"></span></div>
+                  </section>
+
+                  <!-- APPROVALS (mit TAN & Decline Modal) -->
+                  <section data-view="approvals" class="hidden">
+                    <div class="space-y-3">
+                      <!-- Card 1 (pending) -->
+                      <div class="rounded-2xl border bg-white p-3 shadow-sm" data-req-id="req-92f7">
+                        <div class="flex items-start justify-between gap-3">
+                          <div>
+                            <div class="text-sm font-semibold text-zinc-900">DHL Parcel Pickup</div>
+                            <div class="text-xs text-zinc-600">Request from <strong>Peter Parker</strong> · Tracking 987654321</div>
+                            <div class="mt-1 text-[11px] text-zinc-500">Valid until 20:45</div>
+                          </div>
+                          <span class="status-badge px-2 py-0.5 rounded-full text-[11px] bg-zinc-100 text-zinc-800">Pending</span>
+                        </div>
+                        <div class="mt-3 grid grid-cols-2 gap-2">
+                          <button class="btn-decline rounded-xl bg-rose-600 py-2 text-sm text-white">Decline</button>
+                          <button class="btn-approve rounded-xl bg-emerald-600 py-2 text-sm text-white">Approve</button>
+                        </div>
+                      </div>
+
+                      <!-- Card 2 (approved) -->
+                      <div class="rounded-2xl border bg-white p-3 shadow-sm opacity-95" data-req-id="req-33ab">
+                        <div class="flex items-start justify-between gap-3">
+                          <div>
+                            <div class="text-sm font-semibold text-zinc-900">Apotheke Nord</div>
+                            <div class="text-xs text-zinc-600">Request from <strong>Anna Schmidt</strong></div>
+                            <div class="mt-1 text-[11px] text-zinc-500">Valid until 19:30</div>
+                          </div>
+                          <span class="px-2 py-0.5 rounded-full text-[11px] bg-emerald-100 text-emerald-800">Approved</span>
+                        </div>
+                      </div>
+
+                      <!-- Card 3 (declined) -->
+                      <div class="rounded-2xl border bg-white p-3 shadow-sm opacity-90" data-req-id="req-77zz">
+                        <div class="flex items-start justify-between gap-3">
+                          <div>
+                            <div class="text-sm font-semibold text-zinc-900">Retail Access</div>
+                            <div class="text-xs text-zinc-600">Request from <strong>Max Mustermann</strong></div>
+                            <div class="mt-1 text-[11px] text-zinc-500">Expired</div>
+                          </div>
+                          <span class="px-2 py-0.5 rounded-full text-[11px] bg-rose-100 text-rose-800">Declined</span>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- SETTINGS -->
+                  <section data-view="settings" class="hidden">
+                    <div class="rounded-2xl border bg-white p-4 text-sm text-zinc-600">Settings coming soon.</div>
+                  </section>
                 </div>
 
-                <!-- Nav bar -->
-                <div class="absolute bottom-0 inset-x-0 border-t bg-white/90 px-6 py-3 flex items-center justify-between text-xs select-none">
-                  <span class="text-gray-900 font-medium">Home</span>
-                  <span class="text-gray-400">Passes</span>
-                  <span class="text-gray-400">Profile</span>
+                <!-- Bottom Nav: Home · Approvals · Requests · Settings -->
+                <div class="absolute bottom-0 inset-x-0 border-t bg-white/90 px-6 py-6 grid grid-cols-4 items-center text-xs select-none" role="navigation" aria-label="App navigation">
+                  <button id="goHome" class="text-gray-900 text-sm text-left" type="button">Home</button>
+                  <button id="goApprovals" class="text-gray-400 text-sm text-left" type="button">Approvals</button>
+                  <button id="openRequests" class="text-gray-400 text-sm text-center" type="button">Requests</button>
+                  <button id="goSettings" class="text-gray-400 text-sm text-right" type="button">Settings</button>
                 </div>
               </div>
             </div>
@@ -230,84 +305,257 @@
 
     <!-- FOOTER -->
     <footer class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm mt-6 px-1">
-      <div class="text-white/90">© 2025 QWIKY</div>
+      <div class="text-white/90">© 2025 QWIKR</div>
       <div class="flex gap-6">
         <a href="#" class="text-white/80 hover:text-white transition">Privacy</a>
         <a href="#" class="text-white/80 hover:text-white transition">Imprint</a>
         <a href="#" class="text-white/80 hover:text-white transition">Contact</a>
+        <a href="#" class="text-white/80 hover:text-white transition">Help</a>
       </div>
     </footer>
   </div>
 
+  <!-- TAN Modal -->
+  <div id="tanModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative mx-auto mt-24 w-80 rounded-2xl bg-white p-6 text-center shadow-xl">
+      <h2 class="text-lg font-semibold text-zinc-900 mb-1">Enter TAN</h2>
+      <p class="text-sm text-zinc-500 mb-4">To approve this request, enter your 6-digit TAN.</p>
+      <input id="tanInput" type="password" inputmode="numeric" maxlength="6"
+             class="w-full border rounded-lg px-3 py-2 text-center tracking-[0.4em] text-lg mb-4 text-gray-600"
+             placeholder="••••••" />
+      <p id="tanError" class="hidden text-sm text-rose-600 mb-2">Please enter a valid 6-digit TAN.</p>
+      <div class="flex gap-3">
+        <button id="tanCancel" class="flex-1 py-2 rounded-lg bg-rose-600 text-white">Cancel</button>
+        <button id="tanConfirm" class="flex-1 py-2 rounded-lg bg-emerald-600 text-white">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decline Confirm Modal -->
+  <div id="declineModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative mx-auto mt-28 w-80 rounded-2xl bg-white p-6 text-center shadow-xl">
+      <h2 class="text-lg font-semibold text-zinc-900 mb-2">Decline request?</h2>
+      <p class="text-sm text-zinc-500 mb-4">You can not reverse this action.</p>
+      <div class="flex gap-3">
+        <button id="declineCancel" class="flex-1 py-2 rounded-lg bg-gray-500 text-white">Cancel</button>
+        <button id="declineConfirm" class="flex-1 py-2 rounded-lg bg-rose-600 text-white">Decline</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // reveal on scroll
-    const io = new IntersectionObserver(es=>{
-      es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-    },{threshold:.16});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    // reveal on scroll (keine Änderungen nötig)
+    (() => {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('in')); return; }
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+      },{threshold:.16});
+      els.forEach(el=>io.observe(el));
+    })();
 
-    // Collapsible QR panel toggle with robust height management
-    const panel = document.getElementById('qrPanel');
-    const toggle = document.getElementById('qrToggle');
-    const copyBtn = document.getElementById('btnCopy');
-    const qrImg  = document.getElementById('qrImg');
+    // QR toggle
+    (() => {
+      const details = document.getElementById('qrDetails');
+      const toggle = document.getElementById('qrToggle');
+      const panel  = document.getElementById('qrPanel');
+      if(!(details && toggle && panel)) return;
+      const setState = () => {
+        const open = details.open;
+        toggle.textContent = open ? 'Hide QR' : 'Show QR';
+        toggle.setAttribute('aria-expanded', String(open));
+        panel.style.overflow = 'hidden';
+        const h = panel.scrollHeight;
+        if (open) {
+          panel.animate([{maxHeight:'0',opacity:0},{maxHeight:h+'px',opacity:1}], {duration:250,easing:'ease'}).onfinish = () => { panel.style.maxHeight = ''; panel.style.overflow = ''; };
+        } else {
+          panel.animate([{maxHeight:h+'px',opacity:1},{maxHeight:'0',opacity:0}], {duration:200,easing:'ease'}).onfinish = () => { panel.style.maxHeight = ''; panel.style.overflow = ''; };
+        }
+      };
+      details.addEventListener('toggle', setState);
+      toggle.addEventListener('click', (e) => { e.preventDefault(); details.open = !details.open; setState(); });
+      setState();
+    })();
 
-    function recalc(){
-      if(panel && panel.classList.contains('open')){
-        panel.style.maxHeight = panel.scrollHeight + 'px';
+    // Copy code demo
+    (() => {
+      const copyBtn = document.getElementById('btnCopy'); if (!copyBtn) return;
+      copyBtn.addEventListener('click', async () => {
+        const code = 'QWIKY-DHL-1234-5678';
+        try{ if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(code);
+          copyBtn.textContent = 'Copied'; setTimeout(()=> copyBtn.textContent = 'Copy', 1500);
+        }catch{ copyBtn.textContent = 'Error'; setTimeout(()=> copyBtn.textContent = 'Copy', 1500); }
+      });
+    })();
+
+    // Phone tilt (wie gehabt, gekürzt)
+    (() => {
+      const phone = document.getElementById('phone');
+      const glare = document.getElementById('glare');
+      if(!phone) return;
+      const tiltMax = 12; let raf, tx = 0, ty = 0, vx = 0, vy = 0;
+      function tiltPointer(e){
+        const r = phone.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+        tx = (py * -tiltMax); ty = (px * tiltMax);
+        const mx = ((e.clientX - r.left) / r.width) * 100, my = ((e.clientY - r.top) / r.height) * 100;
+        glare?.style.setProperty('--mx', mx + '%'); glare?.style.setProperty('--my', my + '%');
+        if(!raf) animateTilt();
       }
-    }
-
-    function setOpen(open){
-      if(!panel || !toggle) return;
-      if(open){
-        panel.classList.add('open');
-        // Zweifacher Frame-Flush, damit Bilder/Fonts Einfluss haben
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-        requestAnimationFrame(()=> requestAnimationFrame(recalc));
-        toggle.setAttribute('aria-expanded','true');
-        toggle.textContent = 'Hide QR';
-      } else {
-        // sanft schließen
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-        requestAnimationFrame(()=>{
-          panel.style.maxHeight = '0px';
-          panel.classList.remove('open');
-        });
-        toggle.setAttribute('aria-expanded','false');
-        toggle.textContent = 'Show QR';
+      function animateTilt(){
+        const k = 0.18, d = 0.12;
+        vx += (tx - (parseFloat(phone.dataset.rx||0))) * k; vx *= (1 - d);
+        vy += (ty - (parseFloat(phone.dataset.ry||0))) * k; vy *= (1 - d);
+        const rx = (parseFloat(phone.dataset.rx||0) + vx), ry = (parseFloat(phone.dataset.ry||0) + vy);
+        phone.dataset.rx = rx; phone.dataset.ry = ry;
+        phone.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        raf = requestAnimationFrame(()=>{ if(Math.abs(rx-tx) < .01 && Math.abs(ry-ty) < .01){ cancelAnimationFrame(raf); raf = null; } else animateTilt(); });
       }
-    }
+      function tiltReset(){ tx = 0; ty = 0; if(!raf) animateTilt(); }
+      phone.addEventListener('mousemove', tiltPointer);
+      phone.addEventListener('mouseleave', tiltReset);
+    })();
 
-    // Toggle-Button
-    toggle?.addEventListener('click', ()=>{
-      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-      setOpen(!isOpen);
-    });
+    // Mini-router (Home, Approvals, Requests, Settings)
+    (() => {
+      const viewsWrap = document.getElementById('phoneViews');
+      const title     = document.getElementById('phoneTitle');
 
-    // Recalc bei Bild-Ladevorgang
-    qrImg?.addEventListener('load', recalc);
+      const goHome      = document.getElementById('goHome');
+      const goApprovals = document.getElementById('goApprovals');
+      const goSettings  = document.getElementById('goSettings');
+      const openReq     = document.getElementById('openRequests');
 
-    // Recalc bei Größenänderung des Panels (z. B. Fonts, responsive)
-    if ('ResizeObserver' in window && panel){
-      const ro = new ResizeObserver(recalc);
-      ro.observe(panel);
-    }
-
-    // Copy (dummy) code action
-    copyBtn?.addEventListener('click', async ()=>{
-      try{
-        await navigator.clipboard.writeText('QWIKY-DHL-1234-5678');
-        copyBtn.textContent = 'Copied';
-        setTimeout(()=> copyBtn.textContent = 'Copy', 1600);
-      }catch(e){
-        copyBtn.textContent = 'Error';
-        setTimeout(()=> copyBtn.textContent = 'Copy', 1600);
+      function show(name){
+        viewsWrap.querySelectorAll('[data-view]').forEach(v => v.classList.toggle('hidden', v.dataset.view !== name));
+        title.textContent =
+          name === 'requests'  ? 'Request Authorization' :
+          name === 'approvals' ? 'Approvals' :
+          name === 'settings'  ? 'Settings' :
+          'My Authorizations';
+        // Active state
+        goHome.classList.toggle('text-gray-900', name==='home');
+        goHome.classList.toggle('text-gray-400', name!=='home');
+        goApprovals.classList.toggle('text-gray-900', name==='approvals');
+        goApprovals.classList.toggle('text-gray-400', name!=='approvals');
+        goSettings.classList.toggle('text-gray-900', name==='settings');
+        goSettings.classList.toggle('text-gray-400', name!=='settings');
+        openReq.classList.toggle('text-gray-900', name==='requests');
+        openReq.classList.toggle('text-gray-400', name!=='requests');
       }
-    });
 
-    // Ensure correct height on resize when panel is open
-    window.addEventListener('resize', recalc);
+      // Start auf Home
+      show('home');
+
+      goHome?.addEventListener('click', () => show('home'));
+      goApprovals?.addEventListener('click', () => show('approvals'));
+      goSettings?.addEventListener('click', () => show('settings'));
+      openReq?.addEventListener('click', () => show('requests'));
+    })();
+
+    // ===== Approvals: TAN-Modal + Decline-Modal =====
+    (() => {
+      const tanModal = document.getElementById('tanModal');
+      const tanInput = document.getElementById('tanInput');
+      const tanError = document.getElementById('tanError');
+      const tanCancel = document.getElementById('tanCancel');
+      const tanConfirm = document.getElementById('tanConfirm');
+
+      const declineModal = document.getElementById('declineModal');
+      const declineCancel = document.getElementById('declineCancel');
+      const declineConfirm = document.getElementById('declineConfirm');
+
+      let activeCard = null; // merkt sich die Karte, auf der der Button gedrückt wurde
+
+      // Delegation: Approve
+      document.querySelector('[data-view="approvals"]')?.addEventListener('click', (e) => {
+        const approveBtn = e.target.closest('.btn-approve');
+        const declineBtn = e.target.closest('.btn-decline');
+        const card = e.target.closest('[data-req-id]');
+        if (!card) return;
+
+        if (approveBtn) {
+          activeCard = card;
+          tanInput.value = '';
+          tanError.classList.add('hidden');
+          tanModal.classList.remove('hidden');
+          setTimeout(()=>tanInput.focus(), 10);
+        }
+        if (declineBtn) {
+          activeCard = card;
+          declineModal.classList.remove('hidden');
+        }
+      });
+
+      // TAN: Cancel/Confirm
+      tanCancel?.addEventListener('click', () => { tanModal.classList.add('hidden'); activeCard = null; });
+      tanConfirm?.addEventListener('click', () => {
+        const v = (tanInput.value || '').trim();
+        if (!/^\d{6}$/.test(v)) {
+          tanError.classList.remove('hidden');
+          return;
+        }
+        tanModal.classList.add('hidden');
+        if (activeCard) {
+          const badge = activeCard.querySelector('.status-badge');
+          if (badge) {
+            badge.textContent = 'Approved';
+            badge.className = 'status-badge px-2 py-0.5 rounded-full text-[11px] bg-emerald-100 text-emerald-800';
+          }
+          activeCard.querySelector('.btn-approve')?.classList.add('opacity-60','pointer-events-none');
+          activeCard.querySelector('.btn-decline')?.classList.add('opacity-60','pointer-events-none');
+        }
+        activeCard = null;
+      });
+
+      // Decline: Cancel/Confirm
+      declineCancel?.addEventListener('click', () => { declineModal.classList.add('hidden'); activeCard = null; });
+      declineConfirm?.addEventListener('click', () => {
+        declineModal.classList.add('hidden');
+        if (activeCard) {
+          const badge = activeCard.querySelector('.status-badge');
+          if (badge) {
+            badge.textContent = 'Declined';
+            badge.className = 'status-badge px-2 py-0.5 rounded-full text-[11px] bg-rose-100 text-rose-800';
+          }
+          activeCard.querySelector('.btn-approve')?.classList.add('opacity-60','pointer-events-none');
+          activeCard.querySelector('.btn-decline')?.classList.add('opacity-60','pointer-events-none');
+        }
+        activeCard = null;
+      });
+
+      // Input nur Ziffern zulassen
+      tanInput?.addEventListener('input', () => {
+        tanInput.value = tanInput.value.replace(/\D/g,'').slice(0,6);
+        tanError.classList.add('hidden');
+      });
+    })();
+
+    // Sparks parallax
+    (() => {
+      const sparks = document.querySelectorAll('.spark');
+      if(!sparks.length) return;
+      window.addEventListener('scroll', ()=>{ const y = window.scrollY * 0.03; sparks.forEach(s=>{ s.style.transform = `translateY(${-y}px)`; }); }, {passive:true});
+    })();
+
+    // Scroll progress
+    (() => {
+      const prog = document.getElementById('progress');
+      function onScroll(){ const st = document.documentElement.scrollTop || document.body.scrollTop;
+        const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        prog.style.width = (sh ? (st / sh) * 100 : 0) + '%'; }
+      window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+    })();
+
+    // Keyboard focus ring
+    (() => {
+      function showFocus(){ document.documentElement.classList.add('kb'); }
+      function hideFocus(){ document.documentElement.classList.remove('kb'); }
+      window.addEventListener('keydown', e=>{ if(e.key==='Tab') showFocus(); });
+      window.addEventListener('mousedown', hideFocus);
+    })();
   </script>
 </body>
 </html>
